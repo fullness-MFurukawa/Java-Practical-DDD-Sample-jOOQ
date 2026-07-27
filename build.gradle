@@ -38,7 +38,9 @@ dependencies {
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
     testAnnotationProcessor "org.mapstruct:mapstruct-processor:1.6.3"
 	// 生成時にDBへ接続するためのドライバ
-	jooqGenerator 'org.postgresql:postgresql'   
+	jooqGenerator 'org.postgresql:postgresql'
+    // Open API(Swagger)
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.8.12'   
 }
 
 tasks.named('test') {
