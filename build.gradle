@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '4.0.7'
 	id 'io.spring.dependency-management' version '1.1.7'
+	id 'nu.studer.jooq' version '9.0'
 }
 
 group = 'jp.co.fullness.ddd'
@@ -31,8 +32,57 @@ dependencies {
 	testCompileOnly 'org.projectlombok:lombok'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 	testAnnotationProcessor 'org.projectlombok:lombok'
+	
+	// MapStruct
+    implementation 'org.mapstruct:mapstruct:1.6.3'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.6.3'
+    testAnnotationProcessor "org.mapstruct:mapstruct-processor:1.6.3"
+	// 生成時にDBへ接続するためのドライバ
+	jooqGenerator 'org.postgresql:postgresql'   
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+
+jooq {
+    version = dependencyManagement.importedProperties['jooq.version']
+    configurations {
+        main {
+            generateSchemaSourceOnCompilation = false
+            generationTool {
+                jdbc {
+                    driver = 'org.postgresql.Driver'
+                    url = 'jdbc:postgresql://localhost:5432/restapi_exercise'
+                    user = 'postgres'
+                    password = 'training'
+                }
+                generator {
+                    name = 'org.jooq.codegen.JavaGenerator'
+                    database {
+                        name = 'org.jooq.meta.postgres.PostgresDatabase'
+                        inputSchema = 'public'
+                        includes = 'product|product_category|product_stock'
+                    }
+                    generate {
+                        records = true
+                        pojos = false
+                        deprecated = false
+                    }
+                    target {
+                        packageName = 'jp.co.fullness.ddd.infrastructure.jooq.generated'
+                        directory   = 'src/generated/jooq'                       }
+                }
+            }
+        }
+    }
+}
+
+// jooq ブロックの外。生成物をコンパイル対象に含める
+sourceSets {
+    main {
+        java {
+            srcDir 'src/generated/jooq'
+        }
+    }
 }
