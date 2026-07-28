@@ -8,7 +8,6 @@ import java.util.Optional;
 
 import org.jooq.DSLContext;
 import org.jooq.exception.DataAccessException;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Repository;
 
 import jp.co.fullness.ddd.domain.exception.DomainException;
@@ -30,7 +29,6 @@ import lombok.RequiredArgsConstructor;
  * 合成・分解は {@link ProductAssembler} に委譲する。</p>
  */
 @Repository
-@Profile("jooq")
 @RequiredArgsConstructor
 public class ProductRepositoryImpl implements ProductRepository {
 
