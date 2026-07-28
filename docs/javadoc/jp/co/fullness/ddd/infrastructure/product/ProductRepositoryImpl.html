@@ -148,6 +148,11 @@ implements <a href="../../domain/model/product/ProductRepository.html" title="jp
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">商品名で商品を取得する。</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#update(jp.co.fullness.ddd.domain.model.product.Product)" class="member-name-link">update</a><wbr>(<a href="../../domain/model/product/Product.html" title="jp.co.fullness.ddd.domain.model.product内のクラス">Product</a>&nbsp;product)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">既存の商品を変更(更新)する。</div>
+</div>
 </div>
 </div>
 </div>
@@ -189,6 +194,23 @@ implements <a href="../../domain/model/product/ProductRepository.html" title="jp
 <dd><code><a href="../../domain/model/product/ProductRepository.html#create(jp.co.fullness.ddd.domain.model.product.Product)">create</a></code>&nbsp;インタフェース内&nbsp;<code><a href="../../domain/model/product/ProductRepository.html" title="jp.co.fullness.ddd.domain.model.product内のインタフェース">ProductRepository</a></code></dd>
 <dt>パラメータ:</dt>
 <dd><code>product</code> - 永続化する商品</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="update(jp.co.fullness.ddd.domain.model.product.Product)">
+<h3>update</h3>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">update</span><wbr><span class="parameters">(<a href="../../domain/model/product/Product.html" title="jp.co.fullness.ddd.domain.model.product内のクラス">Product</a>&nbsp;product)</span></div>
+<div class="block">既存の商品を変更(更新)する。
+
+ <p>商品ID(<code>product_uuid</code>)で対象を特定し、名称・単価・在庫数を反映する。
+ カテゴリは「商品を変更する」ユースケースの変更対象外のため更新しない。
+ 在庫は集約の一部として同一トランザクションで一括更新する。</p></div>
+<dl class="notes">
+<dt>定義:</dt>
+<dd><code><a href="../../domain/model/product/ProductRepository.html#update(jp.co.fullness.ddd.domain.model.product.Product)">update</a></code>&nbsp;インタフェース内&nbsp;<code><a href="../../domain/model/product/ProductRepository.html" title="jp.co.fullness.ddd.domain.model.product内のインタフェース">ProductRepository</a></code></dd>
+<dt>パラメータ:</dt>
+<dd><code>product</code> - 変更内容を反映済みの商品（商品IDで対象を特定する）</dd>
 </dl>
 </section>
 </li>

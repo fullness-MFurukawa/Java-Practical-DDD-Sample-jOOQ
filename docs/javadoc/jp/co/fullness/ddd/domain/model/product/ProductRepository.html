@@ -165,6 +165,11 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">商品名を指定して商品を取得する。</div>
 </div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#update(jp.co.fullness.ddd.domain.model.product.Product)" class="member-name-link">update</a><wbr>(<a href="Product.html" title="jp.co.fullness.ddd.domain.model.product内のクラス">Product</a>&nbsp;product)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">既存の商品を変更(更新)する。</div>
+</div>
 </div>
 </div>
 </div>
@@ -190,6 +195,26 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>パラメータ:</dt>
 <dd><code>product</code> - 永続化対象の <a href="Product.html" title="jp.co.fullness.ddd.domain.model.product内のクラス"><code>Product</code></a> エンティティ</dd>
+</dl>
+</section>
+</li>
+<li>
+<section class="detail" id="update(jp.co.fullness.ddd.domain.model.product.Product)">
+<h3>update</h3>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">update</span><wbr><span class="parameters">(<a href="Product.html" title="jp.co.fullness.ddd.domain.model.product内のクラス">Product</a>&nbsp;product)</span></div>
+<div class="block">既存の商品を変更(更新)する。
+
+ <p>ドメイン上の変更操作(例：「商品を変更する」ユースケース)で呼び出されます。
+ <br>商品ID(<a href="ProductId.html" title="jp.co.fullness.ddd.domain.model.product内のクラス"><code>ProductId</code></a>)で対象を特定し、商品名・単価・在庫数などの状態を
+ 永続化層に反映します。集約ルートである <a href="Product.html" title="jp.co.fullness.ddd.domain.model.product内のクラス"><code>Product</code></a> を通じて、
+ 保持する在庫(<code>Stock</code>)も含めて一括で更新することを想定します。
+
+ <p>商品名の一意性(同名商品の重複不可)は、更新対象の商品自身を除外して
+ 判定する必要があるため、ユースケース層で <a href="#findByName(jp.co.fullness.ddd.domain.model.product.ProductName)"><code>findByName(ProductName)</code></a> を用いて
+ 「同名商品が存在し、かつその商品IDが更新対象と異なる場合のみ不可」と検証することを想定します。</div>
+<dl class="notes">
+<dt>パラメータ:</dt>
+<dd><code>product</code> - 変更内容を反映済みの <a href="Product.html" title="jp.co.fullness.ddd.domain.model.product内のクラス"><code>Product</code></a> エンティティ(商品IDで対象を特定する)</dd>
 </dl>
 </section>
 </li>
