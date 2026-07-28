@@ -19,7 +19,6 @@ import jp.co.fullness.ddd.infrastructure.exception.InternalException;
 import jp.co.fullness.ddd.infrastructure.jooq.generated.tables.records.ProductCategoryRecord;
 import jp.co.fullness.ddd.infrastructure.jooq.generated.tables.records.ProductRecord;
 import jp.co.fullness.ddd.infrastructure.jooq.generated.tables.records.ProductStockRecord;
-
 import lombok.RequiredArgsConstructor;
 
 /**
@@ -39,7 +38,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     private final ProductAssembler assembler;
 
     // Lombok を使わない場合は下記の明示コンストラクタで代替できる
-    // public ProductJooqRepository(DSLContext dsl, ProductAssembler assembler) {
+    // public ProductRepositoryImpl(DSLContext dsl, ProductAssembler assembler) {
     //     this.dsl = dsl;
     //     this.assembler = assembler;
     // }
@@ -95,6 +94,54 @@ public class ProductRepositoryImpl implements ProductRepository {
     }
 
     /**
+     * 既存の商品を変更(更新)する。
+     *
+     * <p>商品ID({@code product_uuid})で対象を特定し、名称・単価・在庫数を反映する。
+     * カテゴリは「商品を変更する」ユースケースの変更対象外のため更新しない。
+     * 在庫は集約の一部として同一トランザクションで一括更新する。</p>
+     *
+     * @param product 変更内容を反映済みの商品（商品IDで対象を特定する）
+     */
+    @Override
+    public void update(Product product) {
+        if (product == null) {
+            throw new DomainException("商品は必須です。");
+        }
+        try {
+            // 集約 → Record（変更後の名称・単価・在庫数を保持。UUIDで対象を特定する）
+            ProductRecord pr      = assembler.toProductRecord(product);
+            ProductStockRecord sr = assembler.toStockRecord(product);
+
+            // 商品(product)を product_uuid で特定し、名称・単価を UPDATE
+            // ※カテゴリは変更対象外のため category_id は更新しない
+            int updated = dsl.update(PRODUCT)
+                .set(PRODUCT.NAME,  pr.getName())
+                .set(PRODUCT.PRICE, pr.getPrice())
+                .where(PRODUCT.PRODUCT_UUID.eq(pr.getProductUuid()))
+                .execute();
+            if (updated == 0) {
+                // 事前に findById で存在確認済みのため、ここに到達するのは想定外(並行削除など)
+                throw new InternalException("更新対象の商品が見つかりませんでした。");
+            }
+
+            // 在庫(product_stock)を stock_uuid で特定し、在庫数を UPDATE
+            dsl.update(PRODUCT_STOCK)
+                .set(PRODUCT_STOCK.STOCK, sr.getStock())
+                .where(PRODUCT_STOCK.STOCK_UUID.eq(sr.getStockUuid()))
+                .execute();
+
+        } catch (DomainException ex) {
+            throw ex;          // ドメイン例外はそのまま伝播させる
+        } catch (InternalException ex) {
+            throw ex;          // 自前で投げた InternalException を generic catch で二重ラップしない
+        } catch (DataAccessException ex) {
+            throw new InternalException("商品変更中にデータベースエラーが発生しました。", ex);
+        } catch (Exception ex) {
+            throw new InternalException("商品変更処理中に予期しないエラーが発生しました。", ex);
+        }
+    }
+
+    /**
      * 指定された商品名が存在するかを返す。
      *
      * @param productName 商品名
@@ -141,17 +188,14 @@ public class ProductRepositoryImpl implements ProductRepository {
                     .on(PRODUCT.CATEGORY_ID.eq(PRODUCT_CATEGORY.ID))
                 .where(PRODUCT.PRODUCT_UUID.eq(productId.value()))
                 .fetchOne();
-
             if (rec == null) {
                 return Optional.empty();
             }
-
             // テーブルインスタンスで分解（重複カラム名を安全に振り分ける）
             ProductRecord pr         = rec.into(PRODUCT);
             ProductStockRecord sr    = rec.into(PRODUCT_STOCK);
             ProductCategoryRecord cr = rec.into(PRODUCT_CATEGORY);
             return Optional.of(assembler.assemble(pr, cr, sr));
-
         } catch (DomainException ex) {
             throw ex;
         } catch (DataAccessException ex) {
@@ -184,16 +228,13 @@ public class ProductRepositoryImpl implements ProductRepository {
                     .on(PRODUCT.CATEGORY_ID.eq(PRODUCT_CATEGORY.ID))
                 .where(PRODUCT.NAME.eq(productName.value()))
                 .fetchOne();
-
             if (rec == null) {
                 return Optional.empty();
             }
-
             ProductRecord pr         = rec.into(PRODUCT);
             ProductStockRecord sr    = rec.into(PRODUCT_STOCK);
             ProductCategoryRecord cr = rec.into(PRODUCT_CATEGORY);
             return Optional.of(assembler.assemble(pr, cr, sr));
-
         } catch (DomainException ex) {
             throw ex;
         } catch (DataAccessException ex) {

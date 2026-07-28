@@ -56,6 +56,24 @@ public interface ProductRepository {
      */
     void create(Product product);
 
+
+    /**
+     * 既存の商品を変更(更新)する。
+     *
+     * <p>ドメイン上の変更操作(例：「商品を変更する」ユースケース)で呼び出されます。
+     * <br>商品ID({@link ProductId})で対象を特定し、商品名・単価・在庫数などの状態を
+     * 永続化層に反映します。集約ルートである {@link Product} を通じて、
+     * 保持する在庫({@code Stock})も含めて一括で更新することを想定します。
+     *
+     * <p>商品名の一意性(同名商品の重複不可)は、更新対象の商品自身を除外して
+     * 判定する必要があるため、ユースケース層で {@link #findByName(ProductName)} を用いて
+     * 「同名商品が存在し、かつその商品IDが更新対象と異なる場合のみ不可」と検証することを想定します。
+     *
+     * @param product 変更内容を反映済みの {@link Product} エンティティ(商品IDで対象を特定する)
+     */
+    void update(Product product);
+
+
     /**
      * 指定された商品名が既に存在するかを確認する。
      *
