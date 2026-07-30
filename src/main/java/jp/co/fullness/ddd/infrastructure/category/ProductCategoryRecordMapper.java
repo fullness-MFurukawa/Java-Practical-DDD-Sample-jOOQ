@@ -41,7 +41,7 @@ import jp.co.fullness.ddd.infrastructure.jooq.generated.tables.records.ProductCa
  * @see DomainException
  */
 @Mapper(componentModel = "spring")
-public interface CategoryRecordMapper extends ToDomainMapper<ProductCategoryRecord, Category> {
+public interface ProductCategoryRecordMapper extends ToDomainMapper<ProductCategoryRecord, Category> {
 
     /**
      * jOOQの {@link ProductCategoryRecord} を {@link Category} エンティティに変換する。

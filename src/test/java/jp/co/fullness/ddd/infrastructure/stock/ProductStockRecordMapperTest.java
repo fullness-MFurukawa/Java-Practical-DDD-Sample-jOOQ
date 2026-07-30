@@ -14,16 +14,16 @@ import jp.co.fullness.ddd.domain.model.stock.StockQuantity;
 import jp.co.fullness.ddd.infrastructure.jooq.generated.tables.records.ProductStockRecord;
 
 /**
- * {@link StockRecordMapper} の単体テスト（DB 不要）。
+ * {@link ProductStockRecordMapper} の単体テスト（DB 不要）。
  *
  * <p>Stock は永続化が必要（在庫の登録）なため、Mapper は双方向
  * （{@code toDomain} / {@code fromDomain}）で検証する。
  * MapStruct が生成する実装クラス {@code StockRecordMapperImpl} を直接 new して確認する。</p>
  */
 @DisplayName("StockRecordMapper: jOOQ Record ⇔ Stock の相互変換")
-class StockRecordMapperTest {
+class ProductStockRecordMapperTest {
 
-    private final StockRecordMapper mapper = new StockRecordMapperImpl();
+    private final ProductStockRecordMapper mapper = new ProductStockRecordMapperImpl();
 
     /** canonical な UUID 文字列（テスト用の固定値） */
     private static final String UUID_STR = "22222222-2222-2222-2222-222222222222";

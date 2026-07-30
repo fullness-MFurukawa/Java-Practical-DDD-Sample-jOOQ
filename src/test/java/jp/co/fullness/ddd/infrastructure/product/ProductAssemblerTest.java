@@ -23,11 +23,11 @@ import jp.co.fullness.ddd.domain.model.product.ProductName;
 import jp.co.fullness.ddd.domain.model.product.ProductPrice;
 import jp.co.fullness.ddd.domain.model.stock.Stock;
 import jp.co.fullness.ddd.domain.model.stock.StockQuantity;
-import jp.co.fullness.ddd.infrastructure.category.CategoryRecordMapper;
+import jp.co.fullness.ddd.infrastructure.category.ProductCategoryRecordMapper;
 import jp.co.fullness.ddd.infrastructure.jooq.generated.tables.records.ProductCategoryRecord;
 import jp.co.fullness.ddd.infrastructure.jooq.generated.tables.records.ProductRecord;
 import jp.co.fullness.ddd.infrastructure.jooq.generated.tables.records.ProductStockRecord;
-import jp.co.fullness.ddd.infrastructure.stock.StockRecordMapper;
+import jp.co.fullness.ddd.infrastructure.stock.ProductStockRecordMapper;
 
 /**
  * {@link ProductAssembler} の単体テスト（DB 不要）。
@@ -43,9 +43,9 @@ class ProductAssemblerTest {
     @Mock
     private ProductRecordMapper productRecordMapper;
     @Mock
-    private CategoryRecordMapper categoryRecordMapper;
+    private ProductCategoryRecordMapper categoryRecordMapper;
     @Mock
-    private StockRecordMapper stockRecordMapper;
+    private ProductStockRecordMapper stockRecordMapper;
 
     @InjectMocks
     private ProductAssembler assembler;

@@ -14,7 +14,7 @@ import jp.co.fullness.ddd.domain.model.category.Category;
 import jp.co.fullness.ddd.infrastructure.jooq.generated.tables.records.ProductCategoryRecord;
 
 /**
- * {@link CategoryRecordMapper} の単体テスト（Spring コンテナ経由）。
+ * {@link ProductCategoryRecordMapper} の単体テスト（Spring コンテナ経由）。
  *
  * <p>この Mapper は {@code @Mapper(componentModel = "spring")} により Spring の Bean として
  * 生成される（実装は MapStruct が生成する {@code CategoryRecordMapperImpl}）。本テストでは
@@ -26,11 +26,11 @@ import jp.co.fullness.ddd.infrastructure.jooq.generated.tables.records.ProductCa
  */
 @SpringBootTest
 @DisplayName("CategoryRecordMapper: jOOQ Record → Category の変換（DI 経由）")
-class CategoryRecordMapperTest {
+class ProductCategoryRecordMapperTest {
 
     /** Spring コンテナから注入される MapStruct 実装 Bean */
     @Autowired
-    private CategoryRecordMapper mapper;
+    private ProductCategoryRecordMapper mapper;
 
     /** テスト用に ProductCategoryRecord を組み立てるヘルパ */
     private ProductCategoryRecord record(String categoryUuid, String name) {

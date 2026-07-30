@@ -4,8 +4,8 @@ import org.springframework.stereotype.Component;
 
 import jp.co.fullness.ddd.domain.exception.DomainException;
 import jp.co.fullness.ddd.domain.model.product.Product;
-import jp.co.fullness.ddd.infrastructure.stock.StockRecordMapper;
-import jp.co.fullness.ddd.infrastructure.category.CategoryRecordMapper;
+import jp.co.fullness.ddd.infrastructure.stock.ProductStockRecordMapper;
+import jp.co.fullness.ddd.infrastructure.category.ProductCategoryRecordMapper;
 import jp.co.fullness.ddd.infrastructure.jooq.generated.tables.records.ProductCategoryRecord;
 import jp.co.fullness.ddd.infrastructure.jooq.generated.tables.records.ProductRecord;
 import jp.co.fullness.ddd.infrastructure.jooq.generated.tables.records.ProductStockRecord;
@@ -24,9 +24,9 @@ public class ProductAssembler {
     /** ProductRecord ↔ Product */
     private final ProductRecordMapper productRecordMapper;
     /** ProductCategoryRecord → Category */
-    private final CategoryRecordMapper categoryRecordMapper;
+    private final ProductCategoryRecordMapper categoryRecordMapper;
     /** ProductStockRecord ↔ Stock */
-    private final StockRecordMapper stockRecordMapper;
+    private final ProductStockRecordMapper stockRecordMapper;
 
     // Lombok を使わない場合は明示コンストラクタで代替可
     // public ProductAssembler(ProductRecordMapper productRecordMapper,

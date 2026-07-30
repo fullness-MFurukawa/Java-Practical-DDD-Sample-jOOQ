@@ -16,7 +16,7 @@ import jp.co.fullness.ddd.infrastructure.jooq.generated.tables.records.ProductSt
  * 永続化構造（{@link ProductStockRecord}）とドメイン構造（{@link Stock}）の依存を絶つ。</p>
  */
 @Mapper(componentModel = "spring") // Spring 管理 Bean として実装を生成する
-public interface StockRecordMapper extends DomainBiMapper<ProductStockRecord, Stock> {
+public interface ProductStockRecordMapper extends DomainBiMapper<ProductStockRecord, Stock> {
 
     /**
      * jOOQ の {@link ProductStockRecord} からドメインエンティティ {@link Stock} を再構築する。
