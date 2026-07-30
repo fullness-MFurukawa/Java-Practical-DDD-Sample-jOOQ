@@ -30,13 +30,13 @@ public class ProductAssembler {
 
     // Lombok を使わない場合は明示コンストラクタで代替可
     // public ProductAssembler(ProductRecordMapper productRecordMapper,
-    //                         CategoryRecordMapper categoryRecordMapper,
-    //                         StockRecordMapper stockRecordMapper) {
+    //                         ProductCategoryRecordMapper categoryRecordMapper,
+    //                         ProductStockRecordMapper stockRecordMapper) {
     //     this.productRecordMapper = productRecordMapper;
     //     this.categoryRecordMapper = categoryRecordMapper;
     //     this.stockRecordMapper = stockRecordMapper;
     // }
-
+    
     // ----------------------------------------------------------------------
     // 合成（Record → 集約）
     // ----------------------------------------------------------------------
